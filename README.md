@@ -1,2 +1,2 @@
-falafeljs-spa-demo
+FalafelJS
 ==================
