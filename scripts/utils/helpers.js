@@ -41,6 +41,20 @@ define([
 	                ' please bookmark this page manually.');
 	        }
 	    },
+	
+		sendClientMail: function (options) {
+			//CONSTRUCT EMAIL PARAMETERS
+			var url = 'mailto:' + encodeURIComponent(options.mailto) + '?';
+			if (options.cc) url += 'cc=' + encodeURIComponent(options.cc) + '&';
+			if (options.subject) url += 'subject=' + encodeURIComponent(options.subject) + '&';
+			if (options.body) url += 'body=' + encodeURIComponent(options.body) + '&';
+			
+			//TRIM TRAILING QUERYSTRING DELIMITERS
+			_.rtrim(url, '?&');
+			
+			//TRIGGER BROWSER EMAIL REQUEST (TIMEOUT BECAUSE OF "REDIRECT")
+			setTimeout(function () { window.location.href = url; }, 1000);
+		},
 
 	    convertToBoolean: function (value) {
 	        //VALIDATE INPUT
@@ -80,7 +94,7 @@ define([
 	        }
 
 	        //GET RSS ITEMS
-	        $.get(this.toUrl(url), function (data) {
+	        $.get(url, function (data) {
 	            //PARSE RSS
 	            var items = [];
 	            $(data).find('item').each(function (index) {

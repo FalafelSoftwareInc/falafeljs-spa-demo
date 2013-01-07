@@ -48,7 +48,8 @@ require.config({
         innerfade: 'libs/innerfade/jquery.innerfade',
         rateit: 'libs/rateit/jquery.rateit.min',
         relatedtweets: 'libs/relatedtweets/jquery.relatedtweets-1.0.min',
-		jqyoutubeplayer: 'libs/jqyoutubeplayer/jquery.youtube.2'
+		jqyoutubeplayer: 'libs/jqyoutubeplayer/jquery.youtube.2',
+		toastr: 'libs/toastr/toastr'
     },
 
     // The shim config allows us to configure dependencies for
@@ -112,7 +113,8 @@ require.config({
 		innerfade: ['jquery'],
 		rateit: ['jquery'],
 		relatedtweets: ['jquery'],
-		jqyoutubeplayer: ['jquery']
+		jqyoutubeplayer: ['jquery'],
+		toastr: ['jquery']
     }
 });
 

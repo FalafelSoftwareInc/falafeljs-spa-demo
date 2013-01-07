@@ -76,14 +76,9 @@ define([
 			
 				//OPEN CLIENT EMAIL IF APPLICABLE
 				if (options.mailto) {
-					//CONSTRUCT EMAIL PARAMETERS
-					var url = 'mailto:' + encodeURIComponent(options.mailto) + '?';
-					if (options.cc) url += 'cc=' + encodeURIComponent(options.cc) + '&';
-					if (options.subject) url += 'subject=' + encodeURIComponent(options.subject) + '&';
-					url += 'body=' + encodeURIComponent(Form.toString(options.form));
-					
-					//TRIGGER BROWSER EMAIL REQUEST (TIMEOUT BECAUSE OF "REDIRECT")
-					setTimeout(function () { window.location.href = url; }, 1000);
+					//CONSTRUCT EMAIL BODY FROM FORM
+					options.body = Form.toString(options.form);
+					Helpers.sendClientMail(options);
 				}
 
 				//PROCESS CALLBACK IF APPLICABLE
