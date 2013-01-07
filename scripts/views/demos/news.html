@@ -1,0 +1,19 @@
+<div class="page-header">
+	<h1>News</h1>
+</div>
+
+<ul class="rss"></ul>
+<hr />
+<div class="tweets"></div>
+<hr />
+<iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Ffalafelsoftware&amp;width=500&amp;height=590&amp;show_faces=true&amp;colorscheme=light&amp;stream=true&amp;border_color&amp;header=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100%; height:590px;" allowTransparency="true"></iframe>
+
+<script id="rss_template" type="text/mustache">
+	{{#.}}
+	<li>
+		<h3><a href="{{link}}" target="_blank">{{title}}</a></h3>
+		<small>by {{author}} on {{publishedDate}}</small>
+	  	<p>{{contentSnippet}}</p>
+	</li>
+	{{/.}}
+</script>

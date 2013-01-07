@@ -1,0 +1,397 @@
+/*!
+ * jDashboard v2
+ * http://codecanyon.net/item/jdashboard/135111
+ *
+ * Copyright (c) 2010-2012 Sarathi Hansen
+ * http://www.codecanyon.net/user/sarthemaker
+ *
+ * Date: September 7th, 2012
+ *
+ *
+ * NOTES
+ *
+ * This file should be used for development of jDashboard.
+ * For production, please use the compressed "jdashboard.min.css"
+ * as its file size is much smaller.
+ */
+
+.jdash { position: relative; }
+
+.jdash-column {
+	float: left;
+	min-height: 1px;
+}
+
+.jdash-sector {
+    margin: 15px;
+    background: #cccccc;
+    background: rgba(204,204,204,0.1);
+	border: 1px dashed #bbb;
+	display: none;
+	
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
+}
+
+
+/* @group Dashboard Widget */
+	
+	.jdash-widget {
+	    background: #ccc;
+		position: relative;
+		display: none;
+		border: 1px solid #bbb;
+		margin: 15px;
+		z-index: 5;
+	    -webkit-box-shadow: 0 1px 2px 0 #000000;
+	    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+	    -moz-box-shadow: 0 1px 2px 0 #000000;
+	    -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+	    box-shadow: 0 1px 2px 0 #000000;
+	    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+		
+		-webkit-border-radius: 3px;
+		   -moz-border-radius: 3px;
+		        border-radius: 3px;
+	}
+
+.jdash-widget.jdash_collapsed {
+		-webkit-border-radius: 3px;
+		   -moz-border-radius: 3px;
+		        border-radius: 3px;
+	}
+	
+	.jdash-widget.jdash_dragging {
+		opacity: 0.65;
+		z-index: 10;
+	}
+	
+/* @end */
+
+
+/* @group Widget Header */
+	
+	.jdash-header {
+		position: relative;
+		border-bottom: 1px solid #ccc;
+		font: 14px/30px Helvetica, Arial, sans-serif;
+        font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		min-height: 30px;
+		margin: 0;
+		color: #555;
+		text-shadow: 0 1px 0 #fff;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		
+		cursor: move;
+		cursor: url(../cursors/grab.cur), url(/Scripts/libs/jDashboard/cursors/grab.cur), default;
+		cursor: -webkit-grab;
+		cursor: -moz-grab;
+		cursor: grab;
+		
+		background: #eee;
+		background: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#eee));
+		background: -webkit-linear-gradient(top, #fafafa, #eee);
+		background:    -moz-linear-gradient(top, #fafafa, #eee);
+		background:     -ms-linear-gradient(top, #fafafa, #eee);
+		background:      -o-linear-gradient(top, #fafafa, #eee);
+		background:         linear-gradient(top, #fafafa, #eee);
+		    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eeeeee');
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eeeeee')";
+		
+		-webkit-box-shadow: inset 0 1px 0 0 #fff;
+		   -moz-box-shadow: inset 0 1px 0 0 #fff;
+		        box-shadow: inset 0 1px 0 0 #fff;
+		
+		-webkit-border-radius: 2px 2px 0 0;
+		   -moz-border-radius: 2px 2px 0 0;
+		        border-radius: 2px 2px 0 0;
+	}
+	
+	.jdash-widget.jdash_dragging, .jdash-widget.jdash_dragging .jdash-header {
+		cursor: move;
+		cursor: url('../cursors/grabbing.cur'), url(/Scripts/libs/jDashboard/cursors/grabbing.cur), default;
+		cursor: -webkit-grabbing;
+		cursor: -moz-grabbing;
+		cursor: grabbing;
+	}
+	
+	.jdash-header:hover { color: #000; }
+	.jdash-header-inner {
+		background: url(../img/grain.png);
+		padding: 0 12px;
+	}
+	
+	
+	.jdash-widget.jdash_collapsed .jdash-header {
+		border-bottom: 0;
+		
+		-webkit-border-radius: 2px;
+		   -moz-border-radius: 2px;
+		        border-radius: 2px;
+	}
+	
+/* @end */
+
+
+/* @group Widget Collapse Button */
+	
+	.jdash-collapse {
+		position: absolute;
+		right: 0;
+		top: 0;
+		display: block;
+		height: 30px;
+		width: 30px;
+		background: url(../img/arrows.png) no-repeat 11px 13px;
+		cursor: pointer;
+	}
+	/*.jdash-collapse:active {
+		background-color: rgba(0,0,0,.05);
+		-webkit-box-shadow: none;
+		border-left-color: #aaa;
+	}*/
+	.jdash-collapse:hover                               { background-position:  11px -12px; }
+	.jdash-widget.jdash_collapsed .jdash-collapse       { background-position: -10px  12px; }
+	.jdash-widget.jdash_collapsed .jdash-collapse:hover { background-position: -10px -13px; }
+	.jdash-widget:hover .jdash-collapse                 { display: block; }
+	
+/* @end */
+
+
+/* @group Widget Classic Toolbar */
+	
+	.jdash-toolbar { padding-bottom: 8px; }
+	
+	.jdash-widget:hover .jdash-toolbar { display: block; }
+	
+	.jdash-widget .jdash-header .jdash-toolbar button::-moz-focus-inner { border: 0; padding: 0; }
+	.jdash-widget .jdash-header .jdash-toolbar button {
+		border: 1px solid #888;
+		padding: 4px 10px;
+		text-shadow: 0 1px 0 #fff;
+		font-size: 10px;
+		color: #333;
+		cursor: default;
+		margin: 0 2px;
+		
+		background: #ddd;
+		background: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ddd));
+		background: -webkit-linear-gradient(top, #fff, #ddd);
+		background:    -moz-linear-gradient(top, #fff, #ddd);
+		background:     -ms-linear-gradient(top, #fff, #ddd);
+		background:      -o-linear-gradient(top, #fff, #ddd);
+		background:         linear-gradient(top, #fff, #ddd);
+		    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#dddddd');
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#dddddd')";
+		
+		-webkit-box-shadow: 0 1px 0 0 #f6f6f6;
+		   -moz-box-shadow: 0 1px 0 0 #f6f6f6;
+		        box-shadow: 0 1px 0 0 #f6f6f6;
+		
+		-webkit-border-radius: 3px;
+		   -moz-border-radius: 3px;
+		        border-radius: 3px;
+	}
+	.jdash-widget .jdash-header .jdash-toolbar button.left {
+		margin-right: 0;
+		
+		-webkit-border-radius: 3px 0 0 3px;
+		   -moz-border-radius: 3px 0 0 3px;
+		        border-radius: 3px 0 0 3px;
+	}
+	.jdash-widget .jdash-header .jdash-toolbar button.center {
+		margin: 0;
+		border-left: 0;
+		
+		-webkit-border-radius: 0;
+		   -moz-border-radius: 0;
+		        border-radius: 0;
+	}
+	.jdash-widget .jdash-header .jdash-toolbar button.right {
+		margin-left: 0;
+		border-left: 0;
+		
+		-webkit-border-radius: 0 3px 3px 0;
+		   -moz-border-radius: 0 3px 3px 0;
+		        border-radius: 0 3px 3px 0;
+	}
+	
+	.jdash-widget .jdash-header .jdash-toolbar button:active {
+		text-shadow: 0 1px 0 #ccc;
+		border-color: #555;
+		
+		background: #999;
+		background: -webkit-gradient(linear, 0 0, 0 100%, from(#ccc), to(#999));
+		background: -webkit-linear-gradient(top, #ccc, #999);
+		background:    -moz-linear-gradient(top, #ccc, #999);
+		background:     -ms-linear-gradient(top, #ccc, #999);
+		background:      -o-linear-gradient(top, #ccc, #999);
+		background:         linear-gradient(top, #ccc, #999);
+		    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ccc', endColorstr='#999999');
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ccc', endColorstr='#999999')";
+		
+		-webkit-box-shadow: inset 0 0 5px 0 #333, 0 1px 0 0 #f6f6f6;
+		   -moz-box-shadow: inset 0 0 5px 0 #333, 0 1px 0 0 #f6f6f6;
+		        box-shadow: inset 0 0 5px 0 #333, 0 1px 0 0 #f6f6f6;
+	}
+	
+/* @end */
+
+
+/* @group Widget Compact Toolbar */
+	
+	.jdash-toolbar.compact {
+		position: absolute;
+		display: block;
+		right: 30px;
+		top: -1px;
+	}
+	
+	.jdash-widget .jdash-header .jdash-toolbar.compact button { padding: 3px 10px; }
+	.jdash-widget .jdash-header .jdash-toolbar.compact a.jdash-icon {
+		position: relative;
+		top: 3px;
+		display: block;
+		float: left;
+		width: 12px;
+		height: 12px;
+		padding: 7px;
+		
+		   opacity:  1;
+		-ms-filter: "alpha(opacity=100)";
+		    filter:  alpha(opacity=100);
+	}
+	.jdash-widget .jdash-header .jdash-toolbar.compact a.jdash-icon:hover {
+		   opacity:  1;
+		-ms-filter: "alpha(opacity=100)";
+		    filter:  alpha(opacity=100);
+	}
+	.jdash-widget .jdash-header .jdash-toolbar.compact a.jdash-icon img {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -6px;
+		margin-top: -6px;
+	}
+	
+/* @end */
+
+
+/* @group Widget Info */
+	
+	.jdash-info {
+		position: relative;
+		background: #f6f6f6 url(../img/info.png) no-repeat 10px 11px;
+		border-bottom: 1px solid #e0e0e0;
+		padding: 9px 10px 8px 10px;
+		padding-left: 32px;
+		margin: -16px;
+		margin-bottom: 15px;
+		font-weight: normal;
+		color: #888;
+		font: italic 11px/18px "Lucida Grande", Verdana, Arial, sans-serif;
+	}
+	
+	.jdash-info-arrow_fill, .jdash-info-arrow_stroke {
+		position: absolute;
+		left: 13px;
+		bottom: 100%;
+		width: 0;
+		height: 0;
+		border: 3px solid transparent;
+		border-bottom-color: #f4f4f4;
+		z-index: 2;
+	}
+	
+	.jdash-info-arrow_stroke {
+		margin-bottom: 1px;
+		border-bottom-color: #ccc;
+		z-index: 1;
+	}
+	
+/* @end */
+
+
+/* @group Widget Body */
+	
+	.jdash-body {
+		font: 11px/18px "Lucida Grande", Verdana, Arial, sans-serif;
+		color: #666;
+		padding: 15px;
+		border: 1px solid #fff;
+		
+		background: #fafafa;
+		background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0.8, #fcfcfc), color-stop(1, #fafafa));
+		background: -webkit-linear-gradient(top, #fcfcfc 80%, #fafafa);
+		background:    -moz-linear-gradient(top, #fcfcfc 80%, #fafafa);
+		background:     -ms-linear-gradient(top, #fcfcfc 80%, #fafafa);
+		background:      -o-linear-gradient(top, #fcfcfc 80%, #fafafa);
+		background:         linear-gradient(top, #fcfcfc 80%, #fafafa);
+		
+		-webkit-border-radius: 0 0 2px 2px;
+		-moz-border-radius:    0 0 2px 2px;
+		border-radius:         0 0 2px 2px;
+	}
+	
+/* @end */
+
+
+/* @group Extra Styles */
+	
+	.jdash-header .subtitle {
+	    display: inline-block;
+		margin-left: 8px;
+	    border-left: 1px solid #000000;
+	    border-left: 1px solid rgba(0,0,0,.15);
+		padding-left: 8px;
+		font: 11px "Lucida Grande", Verdana, Arial, sans-serif;
+		color: #888;
+		overflow: hidden;
+	    -webkit-box-shadow: inset 1px 0 0 #ffffff;
+	    -webkit-box-shadow: inset 1px 0 0 rgba(255,255,255,.5);
+	    -moz-box-shadow: inset 1px 0 0 #ffffff;
+	    -moz-box-shadow: inset 1px 0 0 rgba(255,255,255,.5);
+	    box-shadow: inset 1px 0 0 #ffffff;
+	    box-shadow: inset 1px 0 0 rgba(255,255,255,.5);
+	}
+
+.jdash-header:hover .subtitle { color: #666; }
+	
+	.jdash-badge {
+	    position: absolute;
+		top: -9px;
+		left: -7px;
+		padding: 0 4px;
+		height: 14px;
+		background: #d00;
+		font: bold 10px/14px "Lucida Grande", Verdana, Arial, sans-serif;
+		color: #fff;
+		z-index: 10;
+		border: 1px solid #900;
+		
+		-webkit-border-radius: 25px;
+		   -moz-border-radius: 25px;
+		        border-radius: 25px;
+	    -webkit-box-shadow: 0 1px 1px #000000;
+	    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	    -moz-box-shadow: 0 1px 1px #000000;
+	    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	    box-shadow: 0 1px 1px #000000;
+	    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+	}
+
+.clear { clear: both; }
+	
+/* @end */
+
+/**
+ * jDashboard v2
+ * http://codecanyon.net/item/jdashboard/135111
+ *
+ * Copyright (c) 2010-2012 Sarathi Hansen
+ * http://www.codecanyon.net/user/sarthemaker
+ */

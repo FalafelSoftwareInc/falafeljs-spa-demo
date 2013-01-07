@@ -1,0 +1,22 @@
+.youtube .carousel {
+    width: 20%;
+    height: 100%;
+    overflow: auto;
+    position: absolute;
+    right: 0px;
+    z-index: 3;
+}
+
+.youtube .thumbnail {
+    margin: 2px;
+    width: 80%;
+    border: 1px solid black;  
+}
+
+.youtube iframe.player {
+    width: 80%;
+    height: 240px;  
+    overflow: auto;
+    border: 0;
+}
+

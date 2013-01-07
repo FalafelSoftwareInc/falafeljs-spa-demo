@@ -1,0 +1,10 @@
+/* Overrides for Bootstrap styles
+** Ues !important when necessary
+*/
+
+/* three columns, .span4's natural width. remove margin off every 4th span 
+http://stackoverflow.com/questions/9478103/multiple-spans-in-one-row-with-twitter-bootstrap
+*/
+.list .span4:nth-child(3n+4) {
+	margin-left: 0;
+}

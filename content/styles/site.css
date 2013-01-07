@@ -1,0 +1,36 @@
+/* General site styles */
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+.loading-panel
+{
+    width: 100%;
+    height: 50px;
+    background: url('../images/loading/loading9.gif') no-repeat center center;
+}
+
+.loading-page
+{
+    width: 100%;
+    height: 200px;
+    background: transparent url('../images/loading/loading40.gif') no-repeat center center;
+}
+
+.sidebar-nav {
+	padding: 9px 0;
+}
+
+.list .span4 .thumbnail {
+	height: 350px;
+}
+
+.table label {
+	font-weight: bold;
+	float: right;
+}
+
+footer {
+	padding: 10px;
+}
