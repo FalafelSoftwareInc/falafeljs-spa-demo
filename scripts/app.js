@@ -33,7 +33,7 @@
 
         initOverrides: function () {
             //OVERRIDE DEFAULT PLACEHOLDER CSS
-            $.fn.placeholder.defaults.placeholderCSS = {
+            if ($.fn.placeholder) $.fn.placeholder.defaults.placeholderCSS = {
                 'font-size': '1.1 em',
                 'color': '#e2e2e2',
                 'position': 'absolute',
