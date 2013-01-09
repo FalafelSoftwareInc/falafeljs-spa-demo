@@ -49,7 +49,9 @@ require.config({
         rateit: 'libs/rateit/jquery.rateit.min',
         relatedtweets: 'libs/relatedtweets/jquery.relatedtweets-1.0.min',
 		jqyoutubeplayer: 'libs/jqyoutubeplayer/jquery.youtube.2',
-		toastr: 'libs/toastr/toastr'
+		toastr: 'libs/toastr/toastr',
+		mustache: 'libs/mustache/mustache',
+		handlebars: 'libs/handlebars/handlebars-1.0.rc.1'
     },
 
     // The shim config allows us to configure dependencies for
@@ -99,6 +101,12 @@ require.config({
         moment: {
             deps: ['jquery'],
             exports: 'moment'
+        },
+		mustache: {
+            exports: 'Mustache'
+        },
+		handlebars: {
+            exports: 'Handlebars'
         },
         underscorestring: ['underscore'],
         qtip: ['jquery'],
