@@ -156,7 +156,11 @@
                 fnLoad(me.controllers[controller]);
             } else {
                 //GET CONTROLLER DEPENEDENCY VIA AJAX
-                require(['controllers/' + controller.toLowerCase()], fnLoad, fnError);
+                require(['controllers/' + controller.toLowerCase()], fnLoad, 
+					//TODO: ERROR ONLY WORKS ON FIRST HIT?
+					//ENSURE ERROR WORKS AS INTENDED (SEE ROUTER)
+					//http://requirejs.org/docs/api.html#errbacks
+					fnError);
             }
         },
 

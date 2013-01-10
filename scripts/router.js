@@ -3,9 +3,10 @@
 	'can',
     'underscore',
     'app',
+	'utils/alert',
     'controllers/pages',
     'underscorestring'
-], function ($, can, _, App, Pages) {
+], function ($, can, _, App, Alert, Pages) {
     //MERGE STRING PLUGIN TO UNDERSCORE NAMESPACE
     _.mixin(_.str.exports());
 	
@@ -46,22 +47,26 @@
         dispatch: function (data) {
             var me = this;
 
-            //SCRUB URL PARAMS IF APPLICABLE
-            var controllerName = _.capitalize(data.controller);
-            //CONVERT URL PARAM TO ACTION NAMING CONVENTION
+            //SCRUB URL PARAMS TO NAMING CONVENTION FOR LATER INVOCATION
+            var controllerName = _.capitalize(data.controller); //PROPER CASE
+            //CAMEL-CASE
             var actionName = data.action
                 ? data.action.charAt(0).toLowerCase() + _.camelize(data.action.slice(1))
                 : 'index'; //DEFAULT TO INDEX ACTION
+
+			var failMsg = 'The content could not be loaded: "'
+				+ controllerName + '/' + actionName
+				+ '". Please try another request or refresh the page.';
 
             //DYNAMICALLY REQUEST CONTROLLER AND PERFORM ACTION
             App.loadController(controllerName, function (controller) {
             	//CALL ACTION WITH PARAMETERS IF APPLICABLE
 				if (controller && controller[actionName])
 					controller[actionName](data);
-				//TODO: FIX BUG, ONLY WORKS ON FIRST HIT
-				//DUE TO HOW REUIREJS ERROR EVENT WORKS
-				else App.navigate('pages/404');
-            });
+				else Alert.notifyError(failMsg);
+            }, function (err) { 
+				Alert.notifyError(failMsg); 
+			});
         }
     });
 
