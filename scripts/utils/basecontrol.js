@@ -2,148 +2,144 @@
 	'jquery',
 	'can',
 	'underscore',
-    'app',
-    'api',
-    'utils/alert',
-    'utils/helpers',
-    'supercan',
-    'canmustache',
-    'underscorestring'
-], function ($, can, _, App, Api, Alert, Helpers) {
-    //MERGE STRING PLUGIN TO UNDERSCORE NAMESPACE
-    _.mixin(_.str.exports());
+	'app',
+	'api',
+	'utils/alert',
+	'utils/helpers',
+	'supercan',
+	'canmustache',
+	'underscorestring'
+], function($, can, _, App, Api, Alert, Helpers) {
+	//MERGE STRING PLUGIN TO UNDERSCORE NAMESPACE
+	_.mixin(_.str.exports());
 
-    //BASE CLASS USED FOR CONTROLLERS
-    return can.Control({
-        init: function (element, options) {
-            //DERIVED SHOULD CALL BASE LIKE:
-            //this._super(element, options);
-        },
+	//BASE CLASS USED FOR CONTROLLERS
+	return can.Control({
+		init: function(element, options) {
+			//DERIVED SHOULD CALL BASE LIKE:
+			//this._super(element, options);
+		},
 
-        view: function (options) {
-            var me = this;
+		view: function(options) {
+			var me = this;
 
-            //SET DEFAULT VALUES
+			//SET DEFAULT VALUES
 			var loading = Helpers.getValueOrDefault(options.loading, false);
-			
-            //START LOADING PANEL
-            if (loading) Alert.initLoading();
 
-            //PROCESS AT THE RIGHT TIME LATER
-            var callback = function (frag) {
-                //GET SPECIFIED CONTENT AREA
-                var el = options.selector
-                    ? me.element.find(options.selector)
-                    : me.element;
+			//START LOADING PANEL
+			if (loading) Alert.initLoading();
 
-                //RENDER TO AREA
-				var fade = Helpers.getValueOrDefault(options.fade, me.options.fade);
-                if (fade && !loading) el.hide().html(frag).fadeIn(fade);
-                else el.html(frag);
+			//PROCESS AT THE RIGHT TIME LATER
+			var callback = function(frag) {
+					//GET SPECIFIED CONTENT AREA
+					var el = options.selector
+						? me.element.find(options.selector)
+						: me.element;
 
-                //PROCESS CALLBACK FUNCTION IF APPLICABLE
-                if (options.fnLoad) options.fnLoad(el);
+					//RENDER TO AREA
+					var fade = Helpers.getValueOrDefault(options.fade, me.options.fade);
+					if (fade && !loading) el.hide().html(frag).fadeIn(fade);
+					else el.html(frag);
 
-                //REBIND EVENTS AFTER ALL VIEWS ADDED
-                me.on();
+					//PROCESS CALLBACK FUNCTION IF APPLICABLE
+					if (options.fnLoad) options.fnLoad(el);
 
-                //EXIT LOADING PANEL
-                if (loading) Alert.exitLoading();
+					//REBIND EVENTS AFTER ALL VIEWS ADDED
+					me.on();
 
-                //DISPLAY ANY MESSAGES IF APPLICABLE
-                Alert.display();
+					//EXIT LOADING PANEL
+					if (loading) Alert.exitLoading();
 
-                //SCROLL TO TOP
-                Helpers.scrollTop();
-            };
+					//DISPLAY ANY MESSAGES IF APPLICABLE
+					Alert.display();
 
-            //LOAD AND MERGE DATA TO VIEW IF APPLICABLE
-            App.loadView(options, function (frag) {
-                //HANDLE VIEW DEPENDENCY IF SPECIFIED AND DOES NOT EXIST ALREADY
-                if (options.dependency && me.element.find(options.dependency.selector).length === 0) {
-                    App.loadView(options.dependency, function (dependencyFrag) {
-                        //GET SPECIFIED CONTENT AREA
-                        var dependencyEl = options.dependency.selector
-                            ? me.element.find(options.dependency.selector)
-                            : me.element;
+					//SCROLL TO TOP
+					Helpers.scrollTop();
+				};
 
-                        //RENDER IN DEPENDENCY AREA
-                        dependencyEl.html(dependencyFrag);
+			//LOAD AND MERGE DATA TO VIEW IF APPLICABLE
+			App.loadView(options, function(frag) {
+				//HANDLE VIEW DEPENDENCY IF SPECIFIED AND DOES NOT EXIST ALREADY
+				if (options.dependency && me.element.find(options.dependency.selector).length === 0) {
+					App.loadView(options.dependency, function(dependencyFrag) {
+						//GET SPECIFIED CONTENT AREA
+						var dependencyEl = options.dependency.selector
+							? me.element.find(options.dependency.selector)
+							: me.element;
 
-                        //PROCESS DEPENDENCY CALLBACK IF APPLICABLE
-                        if (options.dependency.fnLoad)
-                            options.dependency.fnLoad(dependencyEl);
+						//RENDER IN DEPENDENCY AREA
+						dependencyEl.html(dependencyFrag);
 
-                        //PROCESS CALLBACK
-                        callback(frag);
-                    });
-                } else callback(frag);
-            });
-        },
+						//PROCESS DEPENDENCY CALLBACK IF APPLICABLE
+						if (options.dependency.fnLoad)
+							options.dependency.fnLoad(dependencyEl);
 
-        modal: function (options) {
-            var me = this;
+						//PROCESS CALLBACK
+						callback(frag);
+					});
+				} else callback(frag);
+			});
+		},
 
-            //LOAD MODAL WRAPPER DEPENDENCY
-            App.loadView({ url: 'views/shared/modal.html'}, function (modalFrag) {
-                //PLACE MODAL DOM AND GET REFERENCE
-                var el = $(document.body)
-                    .append(modalFrag)
-                    .find('> .modal')
-                    .last();
+		modal: function(options) {
+			var me = this;
 
-                App.loadView(options, function (frag) {
-                    //UPDATE MODAL CONTENT
-                    el.find ('> .modal-body').html(frag);
-                    el.find ('> .modal-header > h3').html(options.title);
+			//LOAD MODAL WRAPPER DEPENDENCY
+			App.loadView({
+				url: 'views/shared/modal.html'
+			}, function(modalFrag) {
+				//PLACE MODAL DOM AND GET REFERENCE
+				var el = $(document.body).append(modalFrag).find('> .modal').last();
 
-                    //HANDLE MODAL FOOTER IF APPLICABLE
-                    var footerEl = el.find ('> .modal-footer');
-                    if (options.footer !== false) {
-                        if (options.submit) footerEl.find('> .submit-modal').html(options.submit);
-                        if (options.submitCss) footerEl.find('> .submit-modal').addClass(options.submitCss);
-                        if (options.close) footerEl.find('> .close-modal').html(options.close);
-                    } else {
-                        footerEl.hide();
-                    }
+				App.loadView(options, function(frag) {
+					//UPDATE MODAL CONTENT
+					el.find('> .modal-body').html(frag);
+					el.find('> .modal-header > h3').html(options.title);
 
-                    //SET STYLE OF MODAL IF APPLICABLE
-                    var css = {};
-                    if (options.width) {
-                        //SET WIDTH AND MAKE CENTER
-                        css.width = typeof css.width === 'number'
-                            ? options.width + 'px'
-                            : options.width;
-                        //TODO: FIND BETTER WAY TO CENTER MODAL
-                        css['margin-left'] = function () { return -($(this).width() / 2); };
-                    }
+					//HANDLE MODAL FOOTER IF APPLICABLE
+					var footerEl = el.find('> .modal-footer');
+					if (options.footer !== false) {
+						if (options.submit) footerEl.find('> .submit-modal').html(options.submit);
+						if (options.submitCss) footerEl.find('> .submit-modal').addClass(options.submitCss);
+						if (options.close) footerEl.find('> .close-modal').html(options.close);
+					} else {
+						footerEl.hide();
+					}
 
-                    //OPEN MODAL WINDOW
-                    $(el)
-                        .on('shown', function () {
-                            //PROCESS LOAD CALLBACK FUNCTION IF APPLICABLE
-                            if (options.fnLoad) options.fnLoad(el);
+					//SET STYLE OF MODAL IF APPLICABLE
+					var css = {};
+					if (options.width) {
+						//SET WIDTH AND MAKE CENTER
+						css.width = typeof css.width === 'number'
+							? options.width + 'px' : options.width;
+							
+						//TODO: FIND BETTER WAY TO CENTER MODAL
+						css['margin-left'] = function() {
+							return -($(this).width() / 2);
+						};
+					}
 
-                            //REBIND EVENTS AFTER ALL VIEWS ADDED
-                            me.on();
-                        })
-                        .on('hide', function () {
-                            //PROCESS HIDE CALLBACK FUNCTION IF APPLICABLE
-                            if (options.fnHide) options.fnHide(el);
-                        })
-                        .on('hidden', function () {
-                            //REMOVE CONTENT AND BINDINGS
-                            $(this).remove();
-                        })
-                        .modal('show')
-                        .css(css);
-                });
-            });
-        },
+					//OPEN MODAL WINDOW
+					$(el).on('shown', function() {
+						//PROCESS LOAD CALLBACK FUNCTION IF APPLICABLE
+						if (options.fnLoad) options.fnLoad(el);
 
-        hideModal: function () {
-            //HIDE ANY OPEN MODAL WINDOWS
-            $('.modal.in', this.element).modal('hide');
-        }
-    });
+						//REBIND EVENTS AFTER ALL VIEWS ADDED
+						me.on();
+					}).on('hide', function() {
+						//PROCESS HIDE CALLBACK FUNCTION IF APPLICABLE
+						if (options.fnHide) options.fnHide(el);
+					}).on('hidden', function() {
+						//REMOVE CONTENT AND BINDINGS
+						$(this).remove();
+					}).modal('show').css(css);
+				});
+			});
+		},
+
+		hideModal: function() {
+			//HIDE ANY OPEN MODAL WINDOWS
+			$('.modal.in', this.element).modal('hide');
+		}
+	});
 });
