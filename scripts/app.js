@@ -22,13 +22,15 @@
 		controllers: [],
 		enterKey: 13,
 
-		init: function() {
+		init: function(options) {
+			options = options || {};
+			
 			//INITIALIZE MISC
-			this.initOverrides();
-			this.initErrorHandler();
+			this.initOverrides(options);
+			this.initErrorHandler(options);
 		},
 
-		initOverrides: function() {
+		initOverrides: function(options) {
 			//MERGE STRING PLUGIN TO UNDERSCORE NAMESPACE
 			_.mixin(_.str.exports());
 
@@ -36,7 +38,7 @@
 			can.view.ext = '';
 
 			//CHOOSE DEFAULT TEMPLATE ENGINE FOR EXTENSIONLESS VIEWS
-			can.view.types[''] = can.view.types['.mustache'];
+			can.view.types[''] = can.view.types['.' + options.template || 'mustache'];
 
 			//DISABLE CACHING FOR IE9 AND BELOW SINCE IT OVERLY CACHES
 			//WHICH IS NOT GOOD FOR REAL TIME APPLICATIONS
@@ -44,18 +46,20 @@
 				$.ajaxSetup({ cache: false });
 		},
 
-		initErrorHandler: function() {
+		initErrorHandler: function(options) {
 			var me = this;
 
 			//ATTACH TO WINDOW ERROR
 			window.onerror = function(msg, url, line) {
-				//NOTIFY THE USER
-				Alert.notifyError('There was an error with your request: "' + msg 
-					+ '". Please try again or refresh the page.');
-
-				//LOG TO SERVER
-				me.logError(msg, url, line);
-
+				//NOTIFY THE USER IF APPLICABLE
+				if (Helpers.getValueOrDefault(options.errorNotify, true))
+					Alert.notifyError('There was an error with your request: "' + msg 
+						+ '". Please try again or refresh the page.');
+				
+				//LOG TO SERVER IF APPLICABLE
+				if (Helpers.getValueOrDefault(options.errorLog, true))
+					me.logError(msg, url, line);
+				
 				//BUBBLE ERROR TO CONSOLE STILL
 				return false;
 			};

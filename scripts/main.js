@@ -126,10 +126,11 @@ require.config({
 
 require([
 	'app',
-	'router'
-], function(App, Router) {
+	'router',
+	'config'
+], function(App, Router, Config) {
 	//INITIALIZE APP
-	App.init();
+	App.init(Config);
 
 	//INITIALIZE ROUTER
 	Router.init();
