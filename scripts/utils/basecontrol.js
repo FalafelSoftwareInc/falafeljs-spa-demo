@@ -31,31 +31,31 @@
 
 			//PROCESS AT THE RIGHT TIME LATER
 			var callback = function(frag) {
-					//GET SPECIFIED CONTENT AREA
-					var el = options.selector
-						? me.element.find(options.selector)
-						: me.element;
+				//GET SPECIFIED CONTENT AREA
+				var el = options.selector
+					? me.element.find(options.selector)
+					: me.element;
 
-					//RENDER TO AREA
-					var fade = Helpers.getValueOrDefault(options.fade, me.options.fade);
-					if (fade && !loading) el.hide().html(frag).fadeIn(fade);
-					else el.html(frag);
+				//RENDER TO AREA
+				var fade = Helpers.getValueOrDefault(options.fade, me.options.fade);
+				if (fade && !loading) el.hide().html(frag).fadeIn(fade);
+				else el.html(frag);
 
-					//PROCESS CALLBACK FUNCTION IF APPLICABLE
-					if (options.fnLoad) options.fnLoad(el);
+				//PROCESS CALLBACK FUNCTION IF APPLICABLE
+				if (options.fnLoad) options.fnLoad(el);
 
-					//REBIND EVENTS AFTER ALL VIEWS ADDED
-					me.on();
+				//REBIND EVENTS AFTER ALL VIEWS ADDED
+				me.on();
 
-					//EXIT LOADING PANEL
-					if (loading) Alert.exitLoading();
+				//EXIT LOADING PANEL
+				if (loading) Alert.exitLoading();
 
-					//DISPLAY ANY MESSAGES IF APPLICABLE
-					Alert.display();
+				//DISPLAY ANY MESSAGES IF APPLICABLE
+				Alert.display();
 
-					//SCROLL TO TOP
-					Helpers.scrollTop();
-				};
+				//SCROLL TO TOP
+				Helpers.scrollTop();
+			};
 
 			//LOAD AND MERGE DATA TO VIEW IF APPLICABLE
 			App.loadView(options, function(frag) {
