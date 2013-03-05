@@ -7,6 +7,7 @@
 	_.mixin(_.str.exports());
 
 	return {
+		//PASS IN AN HTML LIST ELEMENT
 		activate: function(selector) {
 			var activated = false;
 
@@ -15,11 +16,13 @@
 
 			//ACTIVATE NAV BUTTON
 			el.each(function() {
+				//GET LINK AND COMPARE AGAINST URL
 				var url = _.ltrim($('a', this).attr('href'), '#!');
 				var hash = _.ltrim(window.location.hash, '#!');
 
-				//MATCH ROUTES TO NAV LINKS
+				//MATCHES ROUTES TO NAV LINKS
 				if (hash === url) {
+					//REMOVE ACTIVE CLASS FROM SIBLINGS
 					$(this).addClass('active').siblings().removeClass('active');
 					activated = true;
 					return false;
